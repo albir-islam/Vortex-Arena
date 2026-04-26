@@ -195,6 +195,6 @@ This is an **educational AOOP project**:
 
 ## Team Falmouth Falcons
 
-Albir Islam
-Ahmed Jihan
-Shadhin Nandi
+Albir Islam,
+Ahmed Jihan &
+Shadhin Nandi.
