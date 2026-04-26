@@ -46,3 +46,9 @@ out/
 /ui
 /js/game
 /js/rendering
+
+# Godot generated/cache
+.godot/
+.import/
+*.import
+*.tmp
