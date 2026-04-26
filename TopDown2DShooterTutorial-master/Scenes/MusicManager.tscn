@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/MusicManager.gd" id="1_music"]
+
+[node name="MusicManager" type="Node"]
+script = ExtResource("1_music")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+autoplay = false
+bus = &"Music"
+
+[node name="SFX" type="Node" parent="."]

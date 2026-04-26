@@ -1,0 +1,539 @@
+[gd_scene load_steps=18 format=3 uid="uid://ear2w3y4x506"]
+
+[ext_resource type="Script" path="res://Scripts/Lobby.gd" id="1_lobby"]
+[ext_resource type="Texture2D" path="res://Assets/lobby_background.jpg" id="2_bg"]
+[ext_resource type="Texture2D" path="res://Assets/Scharacter.png" id="3_char"]
+
+[sub_resource type="Shader" id="Shader_lobby_bg_blur"]
+code = "shader_type canvas_item;\n\nuniform float strength : hint_range(0.0, 1.0) = 0.15;\nuniform float radius_px : hint_range(0.0, 12.0) = 4.0;\n\nvoid fragment() {\n\tvec4 original = texture(TEXTURE, UV);\t\n\tvec2 px = 1.0 / vec2(textureSize(TEXTURE, 0));\tvec2 o = px * radius_px;\n\t\n\tvec4 sum = original;\tsum += texture(TEXTURE, UV + vec2(o.x, 0.0));\tsum += texture(TEXTURE, UV - vec2(o.x, 0.0));\tsum += texture(TEXTURE, UV + vec2(0.0, o.y));\tsum += texture(TEXTURE, UV - vec2(0.0, o.y));\tsum += texture(TEXTURE, UV + o);\tsum += texture(TEXTURE, UV - o);\tsum += texture(TEXTURE, UV + vec2(o.x, -o.y));\tsum += texture(TEXTURE, UV + vec2(-o.x, o.y));\t\n\tvec4 blurred = sum / 9.0;\t\n\tCOLOR = mix(original, blurred, strength);\n}\n"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lobby_bg_blur"]
+shader = SubResource("Shader_lobby_bg_blur")
+shader_parameter/strength = 0.5
+shader_parameter/radius_px = 4.0
+
+[sub_resource type="Shader" id="Shader_nameplate_blur"]
+code = "shader_type canvas_item;\n\nuniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;\nuniform float radius_px : hint_range(0.0, 18.0) = 10.0;\nuniform vec4 tint : source_color = vec4(0.10, 0.10, 0.15, 0.35);\n\nvoid fragment() {\n\tvec2 px = 1.0 / vec2(textureSize(screen_texture, 0));\tvec2 o = px * radius_px;\n\tvec4 sum = texture(screen_texture, SCREEN_UV);\tsum += texture(screen_texture, SCREEN_UV + vec2(o.x, 0.0));\tsum += texture(screen_texture, SCREEN_UV - vec2(o.x, 0.0));\tsum += texture(screen_texture, SCREEN_UV + vec2(0.0, o.y));\tsum += texture(screen_texture, SCREEN_UV - vec2(0.0, o.y));\tsum += texture(screen_texture, SCREEN_UV + o);\tsum += texture(screen_texture, SCREEN_UV - o);\tsum += texture(screen_texture, SCREEN_UV + vec2(o.x, -o.y));\tsum += texture(screen_texture, SCREEN_UV + vec2(-o.x, o.y));\t\n\tvec4 blurred = sum / 9.0;\t\n\tCOLOR = blurred * (1.0 - tint.a) + tint;\n}\n"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nameplate_blur"]
+shader = SubResource("Shader_nameplate_blur")
+shader_parameter/radius_px = 10.0
+shader_parameter/tint = Color(0.1, 0.1, 0.15, 0.35)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_play_normal"]
+bg_color = Color(0, 0.6, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_play_hover"]
+bg_color = Color(0, 0.7, 0.3, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_play_pressed"]
+bg_color = Color(0, 0.4, 0.1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_normal"]
+bg_color = Color(0.2, 0.4, 0.8, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_hover"]
+bg_color = Color(0.3, 0.5, 0.9, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_pressed"]
+bg_color = Color(0.1, 0.3, 0.6, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_normal"]
+bg_color = Color(0.7, 0.1, 0.1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_hover"]
+bg_color = Color(0.85, 0.2, 0.2, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_exit_pressed"]
+bg_color = Color(0.5, 0.05, 0.05, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.1, 0.1, 0.15, 0.9)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ready_normal"]
+bg_color = Color(0.8, 0.6, 0.1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Lobby" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_lobby")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+material = SubResource("ShaderMaterial_lobby_bg_blur")
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -40.0
+offset_right = 240.0
+offset_bottom = 520.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="PlayerNameContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="NamePlate" type="ColorRect" parent="VBoxContainer/PlayerNameContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 64)
+mouse_filter = 2
+material = SubResource("ShaderMaterial_nameplate_blur")
+color = Color(1, 1, 1, 1)
+
+[node name="PlayerNameLabel" type="Label" parent="VBoxContainer/PlayerNameContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.25, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.85)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 44
+text = "PLAYER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerCharacterImage" type="TextureRect" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 320)
+layout_mode = 2
+texture = ExtResource("3_char")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Spacer" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+
+[node name="SinglePlayerButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_play_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_play_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_play_pressed")
+text = "SINGLE PLAYER"
+
+[node name="MultiplayerButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+theme_override_styles/normal = SubResource("StyleBoxFlat_mp_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mp_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mp_pressed")
+text = "MULTIPLAYER"
+
+[node name="StatsButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_play_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_play_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_play_pressed")
+text = "STATS"
+
+[node name="LeaderboardButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_mp_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mp_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mp_pressed")
+text = "LEADERBOARD"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_exit_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exit_pressed")
+text = "EXIT"
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="StatsPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -380.0
+offset_top = -290.0
+offset_right = 380.0
+offset_bottom = 290.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="StatsPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Title" type="Label" parent="StatsPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "STATS"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="StatsPanel/VBox"]
+layout_mode = 2
+
+[node name="Grid" type="GridContainer" parent="StatsPanel/VBox"]
+layout_mode = 2
+columns = 2
+theme_override_constants/h_separation = 28
+theme_override_constants/v_separation = 14
+
+[node name="KillsKey" type="Label" parent="StatsPanel/VBox/Grid"]
+layout_mode = 2
+custom_minimum_size = Vector2(260, 48)
+theme_override_font_sizes/font_size = 24
+text = "KILLS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KillsValue" type="Label" parent="StatsPanel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 48)
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HighScoreKey" type="Label" parent="StatsPanel/VBox/Grid"]
+layout_mode = 2
+custom_minimum_size = Vector2(260, 48)
+theme_override_font_sizes/font_size = 24
+text = "HIGH SCORE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HighScoreValue" type="Label" parent="StatsPanel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 48)
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MatchesPlayedKey" type="Label" parent="StatsPanel/VBox/Grid"]
+layout_mode = 2
+custom_minimum_size = Vector2(260, 48)
+theme_override_font_sizes/font_size = 24
+text = "MATCHES PLAYED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MatchesPlayedValue" type="Label" parent="StatsPanel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 48)
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MatchesWonKey" type="Label" parent="StatsPanel/VBox/Grid"]
+layout_mode = 2
+custom_minimum_size = Vector2(260, 48)
+theme_override_font_sizes/font_size = 24
+text = "MATCHES WON"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MatchesWonValue" type="Label" parent="StatsPanel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 48)
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EloKey" type="Label" parent="StatsPanel/VBox/Grid"]
+layout_mode = 2
+custom_minimum_size = Vector2(260, 48)
+theme_override_font_sizes/font_size = 24
+text = "ELO"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EloValue" type="Label" parent="StatsPanel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+custom_minimum_size = Vector2(220, 48)
+theme_override_font_sizes/font_size = 24
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Separator2" type="HSeparator" parent="StatsPanel/VBox"]
+layout_mode = 2
+
+[node name="ExitStatsButton" type="Button" parent="StatsPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_exit_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exit_pressed")
+text = "EXIT"
+
+[node name="LeaderboardPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -440.0
+offset_top = -340.0
+offset_right = 440.0
+offset_bottom = 340.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="LeaderboardPanel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Title" type="Label" parent="LeaderboardPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "LEADERBOARD"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="LeaderboardPanel/VBox"]
+layout_mode = 2
+
+[node name="Scroll" type="ScrollContainer" parent="LeaderboardPanel/VBox"]
+custom_minimum_size = Vector2(0, 440)
+layout_mode = 2
+
+[node name="LeaderboardList" type="VBoxContainer" parent="LeaderboardPanel/VBox/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Separator2" type="HSeparator" parent="LeaderboardPanel/VBox"]
+layout_mode = 2
+
+[node name="ExitLeaderboardButton" type="Button" parent="LeaderboardPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_exit_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exit_pressed")
+text = "EXIT"
+
+[node name="MultiplayerPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -180.0
+offset_right = 200.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="MultiplayerPanel"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Title" type="Label" parent="MultiplayerPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "MULTIPLAYER LOBBY"
+horizontal_alignment = 1
+
+[node name="Separator" type="HSeparator" parent="MultiplayerPanel/VBox"]
+layout_mode = 2
+
+[node name="PlayersLabel" type="Label" parent="MultiplayerPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Players (Max 3):"
+
+[node name="PlayersList" type="VBoxContainer" parent="MultiplayerPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 120)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Separator2" type="HSeparator" parent="MultiplayerPanel/VBox"]
+layout_mode = 2
+
+[node name="ButtonsHBox" type="HBoxContainer" parent="MultiplayerPanel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="BackButton" type="Button" parent="MultiplayerPanel/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_exit_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exit_pressed")
+text = "EXIT"
+
+[node name="ReadyButton" type="Button" parent="MultiplayerPanel/VBox/ButtonsHBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_ready_normal")
+text = "READY"
+
+[node name="DifficultyPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -110.0
+offset_right = 190.0
+offset_bottom = 110.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="DifficultyPanel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="DifficultyPanel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Select difficulty"
+horizontal_alignment = 1
+
+[node name="EasyButton" type="Button" parent="DifficultyPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_play_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_play_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_play_pressed")
+text = "EASY (No visibility limit)"
+
+[node name="HardButton" type="Button" parent="DifficultyPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 66)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleBoxFlat_mp_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_mp_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_mp_pressed")
+text = "HARD (Current visibility)"
+
+[node name="ExitDifficultyButton" type="Button" parent="DifficultyPanel/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_exit_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_exit_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_exit_pressed")
+text = "EXIT"

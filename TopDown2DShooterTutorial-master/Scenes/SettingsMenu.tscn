@@ -1,0 +1,232 @@
+[gd_scene load_steps=2 format=3 uid="uid://hmb63r52akhc"]
+
+[ext_resource type="Script" uid="uid://urtpfyejrg1y" path="res://Scripts/SettingsMenu.gd" id="1_script"]
+
+[node name="SettingsMenu" type="Control"]
+process_mode = 2
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Dimmer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -4.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.53333336)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -509.0
+offset_top = -591.0
+offset_right = 519.1555
+offset_bottom = 274.75867
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(1.15, 0.78)
+
+[node name="MainMenu" type="VBoxContainer" parent="Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 248.91116
+offset_top = -345.65738
+offset_right = -253.99109
+offset_bottom = 277.81805
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/MainMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 34
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resume" type="Button" parent="Panel/MainMenu"]
+layout_mode = 2
+	custom_minimum_size = Vector2(0, 60)
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+text = "Resume"
+
+[node name="Audio" type="Button" parent="Panel/MainMenu"]
+layout_mode = 2
+	custom_minimum_size = Vector2(0, 60)
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+text = "Audio"
+
+[node name="Video" type="Button" parent="Panel/MainMenu"]
+layout_mode = 2
+	custom_minimum_size = Vector2(0, 60)
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+text = "Video"
+
+[node name="Controls" type="Button" parent="Panel/MainMenu"]
+layout_mode = 2
+	custom_minimum_size = Vector2(0, 60)
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+text = "Controls"
+
+[node name="Exit" type="Button" parent="Panel/MainMenu"]
+layout_mode = 2
+	custom_minimum_size = Vector2(0, 60)
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 26
+text = "Exit"
+
+[node name="AudioMenu" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="AudioSettings" type="Label" parent="Panel/AudioMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Audio Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Panel/AudioMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "        Master volume"
+vertical_alignment = 1
+
+[node name="MasterSlider" type="HSlider" parent="Panel/AudioMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.05
+
+[node name="Label3" type="Label" parent="Panel/AudioMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "        Music Volume"
+vertical_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="Panel/AudioMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.05
+
+[node name="Label4" type="Label" parent="Panel/AudioMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "        SFX Volume"
+vertical_alignment = 1
+
+[node name="SFXSlider" type="HSlider" parent="Panel/AudioMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+max_value = 1.0
+step = 0.05
+
+[node name="Button" type="Button" parent="Panel/AudioMenu"]
+layout_mode = 2
+	custom_minimum_size = Vector2(0, 56)
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 24
+text = "Back"
+
+[node name="VideoMenu" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/VideoMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 32
+text = "Video Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/VideoMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Label2" type="Label" parent="Panel/VideoMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 24
+text = "        Brightness"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel/VideoMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BrightnessSlider" type="HSlider" parent="Panel/VideoMenu/VBoxContainer2"]
+layout_mode = 2
+min_value = 0.3
+max_value = 1.5
+step = 0.1
+value = 1.0
+
+[node name="Button" type="Button" parent="Panel/VideoMenu"]
+layout_mode = 2
+	custom_minimum_size = Vector2(0, 56)
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 24
+text = "Back"
+
+[node name="ControlMenu" type="VBoxContainer" parent="Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/ControlMenu"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 32
+text = "Controls"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/ControlMenu"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/ControlMenu/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="Panel/ControlMenu"]
+layout_mode = 2
+	custom_minimum_size = Vector2(0, 56)
+theme_override_font_sizes/font_size = 24
+text = "Back"

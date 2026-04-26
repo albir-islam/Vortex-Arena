@@ -1,0 +1,8 @@
+# Godot generated/cache
+.godot/
+.import/
+*.import
+
+# OS/editor noise
+.DS_Store
+.vscode/

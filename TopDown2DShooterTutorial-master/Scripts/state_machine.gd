@@ -1,0 +1,48 @@
+extends Node
+
+class_name StateMachine
+
+signal transitioned(state_name)
+
+var state_name
+@export var initial_state: NodePath
+@onready var state_label = $"../StateLabel"
+@onready var state: State = get_node(initial_state)
+
+
+func _enter_tree():
+	# Ensure child states have a reference to this state machine
+	# before their _ready() runs.
+	for child in get_children():
+		if child is State:
+			(child as State).state_machine = self
+
+
+func _ready():
+	state_name = state.name
+	state.enter()
+	state_label.text = state_name
+	
+func _process(delta):
+	if state.has_method("update"):
+		state.update(delta)
+		
+func _physics_process(delta):
+	if state.has_method("physics_update"):
+		state.physics_update(delta)
+		
+func transition_to(target_state_name: String, msg: Dictionary = {}):
+	if not has_node(target_state_name):
+		return
+	
+	state_name = target_state_name
+	if state.has_method("exit"):
+		state.exit()
+	state = get_node(target_state_name)
+	state.enter(msg)
+	state_label.text = state_name
+	transitioned.emit(state_name)
+
+func _on_health_system_damage_taken(_current_health):
+	if state_name != "Chase" and state_name != "Attack":
+		transition_to("Chase")

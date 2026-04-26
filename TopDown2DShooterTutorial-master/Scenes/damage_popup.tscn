@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cb3xl153y0a68"]
+
+[ext_resource type="Script" path="res://Scripts/damage_popup.gd" id="1_dmgpopup"]
+
+[node name="DamagePopup" type="Node2D"]
+script = ExtResource("1_dmgpopup")
+
+[node name="Label" type="Label" parent="."]
+text = "25"
+horizontal_alignment = 1
+vertical_alignment = 1
+size = Vector2(80, 30)
+position = Vector2(-40, -40)
+theme_override_font_sizes/font_size = 28

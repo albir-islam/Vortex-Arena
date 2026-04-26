@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://multiplayer_main_scene"]
+
+[ext_resource type="Script" path="res://Scripts/multiplayer_main.gd" id="1_mp_main"]
+[ext_resource type="PackedScene" path="res://Scenes/main.tscn" id="2_main"]
+
+[node name="MultiplayerMain" instance=ExtResource("2_main")]
+script = ExtResource("1_mp_main")
+position = Vector2(-285, 100)
