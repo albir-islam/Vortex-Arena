@@ -193,6 +193,8 @@ This is an **educational AOOP project**:
 
 ---
 
-## Author
+## Team Falmouth Falcons
 
+Albir Islam
+Ahmed Jihan
 Shadhin Nandi
