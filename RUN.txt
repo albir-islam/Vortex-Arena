@@ -1,8 +1,14 @@
-windows:
+Windows:
 .\gradlew.bat bootRun
 
-macOs:
-permission
-run 
+macOS/Linux:
 chmod +x ./gradlew
+
+# configure DB (example)
+export DB_HOST=localhost
+export DB_PORT=3306
+export DB_NAME=arena_shooter
+export DB_USER=root
+export DB_PASS='your_password'
+
 ./gradlew bootRun
