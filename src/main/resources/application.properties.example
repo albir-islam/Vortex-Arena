@@ -1,0 +1,17 @@
+# Copy to application.properties (or set env vars) for local development
+#
+# export DB_HOST=localhost
+# export DB_PORT=3306
+# export DB_NAME=arena_shooter
+# export DB_USER=root
+# export DB_PASS='your_password'
+
+spring.datasource.url=jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:arena_shooter}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+spring.datasource.username=${DB_USER:root}
+spring.datasource.password=${DB_PASS:}
+
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+
+server.address=0.0.0.0
+server.port=7320

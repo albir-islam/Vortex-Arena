@@ -1,0 +1,8 @@
+windows:
+.\gradlew.bat bootRun
+
+macOs:
+permission
+run 
+chmod +x ./gradlew
+./gradlew bootRun
